@@ -5,11 +5,13 @@ CreateThread(function()
     while true do
         local hasMarkers = false
         for uniqueId, markerData in pairs(activeTicketMarkers) do
-            hasMarkers = true
             local player = GetPlayerFromServerId(markerData.playerId)
-            if player ~= -1 then
+            if player == -1 then
+                activeTicketMarkers[uniqueId] = nil
+            else
                 local ped = GetPlayerPed(player)
                 if ped and ped ~= 0 and DoesEntityExist(ped) then
+                    hasMarkers = true
                     local coords = GetEntityCoords(ped)
                     DrawText3D(coords.x, coords.y, coords.z + 1.2, markerData.playerName)
                 end
