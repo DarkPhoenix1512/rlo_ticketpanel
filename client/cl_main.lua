@@ -133,14 +133,24 @@ RegisterNUICallback('syncState', function(ticketContent)
     TriggerServerEvent('rlo_ticketpanel:server:syncState', ticketContent) 
 end)
 
-RegisterNetEvent('rlo_ticketpanel:client:syncState', function(activeTickets)
-    for uniqueId, ticketContent in pairs(activeTickets) do
-        activeTicketMarkers[uniqueId] = {
+RegisterNetEvent('rlo_ticketpanel:client:syncState', function(ticketContent)
+    if ticketContent and ticketContent.uniqueId ~= nil then
+        activeTicketMarkers[ticketContent.uniqueId] = {
             playerId = ticketContent.playerId,
             playerName = ticketContent.playerName
         }
 
         SendNUIMessage({type = 'createRequest', ticketContent = ticketContent})
+        return
+    end
+
+    for uniqueId, activeTicketContent in pairs(ticketContent or {}) do
+        activeTicketMarkers[uniqueId] = {
+            playerId = activeTicketContent.playerId,
+            playerName = activeTicketContent.playerName
+        }
+
+        SendNUIMessage({type = 'createRequest', ticketContent = activeTicketContent})
     end
 end)
 
