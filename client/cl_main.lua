@@ -13,7 +13,7 @@ CreateThread(function()
                 if ped and ped ~= 0 and DoesEntityExist(ped) then
                     hasMarkers = true
                     local coords = GetEntityCoords(ped)
-                    DrawText3D(coords.x, coords.y, coords.z + 1.2, markerData.playerName)
+                    DrawText3D(coords.x, coords.y, coords.z + 1.2)
                 end
             end
         end
