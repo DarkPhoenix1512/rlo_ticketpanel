@@ -3,3 +3,28 @@ RegisterNetEvent('rlo_ticketpanel:client:showNotification', function(args) ShowN
 function ShowNotification(args)
     ESX.ShowNotification(args)
 end
+
+function DrawText3D(x, y, z, text)
+    local onScreen, _x, _y = World3dToScreen2d(x, y, z)
+    if not onScreen then return end
+
+    local camCoords = GetGameplayCamCoords()
+    local dist = #(vector3(x, y, z) - camCoords)
+    if dist > 30.0 then return end
+
+    local scale = (1.0 / dist) * 2.5
+    if scale > 0.6 then scale = 0.6 end
+
+    SetTextScale(scale, scale)
+    SetTextFont(4)
+    SetTextProportional(1)
+    SetTextColour(255, 165, 0, 225)
+    SetTextDropshadow(0, 0, 0, 0, 255)
+    SetTextEdge(2, 0, 0, 0, 150)
+    SetTextDropShadow()
+    SetTextOutline()
+    SetTextEntry('STRING')
+    SetTextCentre(true)
+    AddTextComponentString('[Ticket] ' .. text)
+    DrawText(_x, _y)
+end
